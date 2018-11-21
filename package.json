@@ -2,6 +2,7 @@
   "name": "project916",
   "version": "0.0.0",
   "private": true,
+  "main": "app.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production PORT=80 pm2 start app.js",
     "dev": "nodemon app"

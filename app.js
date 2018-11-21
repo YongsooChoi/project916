@@ -10,9 +10,11 @@ const hpp = require('hpp');
 const RedisStore = require('connect-redis')(session);
 require('dotenv').config();
 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const { sequelize } = require('./models');
+const sequelize = require('./models').sequelize;
+
 const logger = require('./logger');
 
 var app = express();
@@ -21,14 +23,17 @@ sequelize.sync();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.set('port', process.env.PORT || 8001);
+app.set('port', process.env.PORT || 3000);
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(morgan('combined'));
+	app.use(helmet());
+	app.use(hpp());
 } else {
 	app.use(morgan('dev'));
 }
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -77,6 +82,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.listen(app.get('port'), () => {	  
+	console.log(app.get('port'), '번 포트에서 대기중');
 });
 
 module.exports = app;
