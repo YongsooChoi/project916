@@ -15,7 +15,7 @@ operatorsAliases: 'false',
 		database: 'farm',
 		host:'127.0.0.1',
 		dialect: 'mysql',
-operatorsAliases: 'false',
+		operatorsAliases: 'false',
 		logging: false,
 	},
 };
